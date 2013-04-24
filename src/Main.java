@@ -5,9 +5,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-// Registrar: Listens on:				8010
-//            Sends Userlist back on:	8011
-
 public class Main
 {
 	public static ServerSocket serverSocket;
@@ -16,7 +13,7 @@ public class Main
 	public static BufferedReader bReader;
 	public static PrintWriter pWriter;
 	
-	public static int userId = 0;
+	public static int clients = 0;
 	
 	public static ArrayList<User> userList = new ArrayList<User>();
 
@@ -28,12 +25,16 @@ public class Main
 		}
 		catch (Exception e) { e.printStackTrace(); }
 		
-		System.out.println("JPong Registrar Listening on Port: " + Resource.PORT);
+		System.out.println("JPong Server Listening on Port: " + Resource.PORT);
 
 		while(true) 
 		{
 			try
 			{
+				Socket connected = serverSocket.accept();
+				
+				
+				
 				addUser(++userId, serverSocket.accept());
 				sendUserListToEveryone();
 			}
