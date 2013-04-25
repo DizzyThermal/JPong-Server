@@ -82,7 +82,6 @@ public class Main
 		long start = 0, finish = 0;
 		while(true) 
 		{
-			start = System.nanoTime();
 			try
 			{
 				receiveData = new byte[1024];
@@ -92,22 +91,19 @@ public class Main
 				if((new String(receivePacket.getData())).trim().contains("/coords"))
 				{
 					updatePlayerCoords(new String(receivePacket.getData()).trim());
-					if (refresh > 2)
+					if (refresh >= 2)
 					{
 						moveBall();
-						checkForBallCollisions();
+						//checkForBallCollisions();
 						refresh = 0;
 					}
 					else
 						refresh++;
-					//checkForBallCollisions();
+					checkForBallCollisions();
 					sendCoords();
 				}
 				else
 					System.out.println("Errorneous Coordinate Received");
-				finish = System.nanoTime();
-				if((finish - start) < 333000000)
-					Thread.sleep(1);
 			}
 			catch (Exception e) { e.printStackTrace(); }
 		}
