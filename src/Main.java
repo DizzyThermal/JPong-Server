@@ -33,12 +33,11 @@ public class Main
 	public static void main(String[] args)
 	{
 		buildRectangles();
-
 		try
 		{
 			serverSocket = new DatagramSocket(Integer.parseInt(Resource.PORT));
 			receivePacket = new DatagramPacket(receiveData, receiveData.length);
-			
+			System.out.println(InetAddress.getLocalHost());
 			// Wait for Player 1
 			serverSocket.receive(receivePacket);
 			p1IP = receivePacket.getAddress();
@@ -79,9 +78,11 @@ public class Main
 				System.out.println("1: Something Goofed!");
 		}
 		catch (Exception e) { e.printStackTrace(); }
-int refresh = 0;
+		int refresh = 0;
+		long start = 0, finish = 0;
 		while(true) 
 		{
+			start = System.nanoTime();
 			try
 			{
 				receiveData = new byte[1024];
@@ -91,23 +92,26 @@ int refresh = 0;
 				if((new String(receivePacket.getData())).trim().contains("/coords"))
 				{
 					updatePlayerCoords(new String(receivePacket.getData()).trim());
-					if (refresh > 1)
+					if (refresh > 2)
 					{
 						moveBall();
 						refresh = 0;
-						checkForBallCollisions();
 					}
 					else
 						refresh++;
-					
+					checkForBallCollisions();
 					sendCoords();
 				}
 				else
 					System.out.println("Errorneous Coordinate Received");
-				Thread.sleep((long)4.5);
+				finish = System.nanoTime();
+				System.out.println(finish - start);
+				System.out.println(333000000-(finish-start));
+				System.out.println((333000000-(finish-start))/10000000);
+				if((finish - start) < 333000000)
+					Thread.sleep((333000000-(finish-start))/10000000);
 			}
 			catch (Exception e) { e.printStackTrace(); }
-			
 		}
 	}
 	
