@@ -95,21 +95,19 @@ public class Main
 					if (refresh > 2)
 					{
 						moveBall();
+						checkForBallCollisions();
 						refresh = 0;
 					}
 					else
 						refresh++;
-					checkForBallCollisions();
+					//checkForBallCollisions();
 					sendCoords();
 				}
 				else
 					System.out.println("Errorneous Coordinate Received");
 				finish = System.nanoTime();
-				System.out.println(finish - start);
-				System.out.println(333000000-(finish-start));
-				System.out.println((333000000-(finish-start))/10000000);
 				if((finish - start) < 333000000)
-					Thread.sleep((333000000-(finish-start))/10000000);
+					Thread.sleep(1);
 			}
 			catch (Exception e) { e.printStackTrace(); }
 		}
@@ -188,7 +186,7 @@ public class Main
 			placeBall(395, 295);
 			setBallDirection((-1*ballVec[X]), (-1*ballVec[Y]));
 		}
-		else if((ball.getY() < 0) || (ball.getY() > 600))
+		else if((ball.getY() < 0) || (ball.getY() > 590))
 		{
 			setBallDirection(ballVec[X], (-1*ballVec[Y]));
 		}
